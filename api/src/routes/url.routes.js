@@ -13,6 +13,6 @@ router.post("/shorten", shortener);
 router.get("/stats/:id", getStats);
 router.delete("/delete/:id", deleteUrl);
 router.put("/update/:id",updateShortUrl);
-router.get("/accessUrl/:id",accessURL)
+router.get("/:code",accessURL)
 
 export default router;

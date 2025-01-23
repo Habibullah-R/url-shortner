@@ -24,11 +24,12 @@ export const shortener = async (req, res) => {
 
     const urlCode = shortid.generate();
 
-    const newShortUrl = `t.lk/${urlCode}`;
+    const newShortUrl = `http://localhost:3000/url/${urlCode}`;
 
     const newURL = await URL.create({
       longUrl: url,
       shortUrl: newShortUrl,
+      urlCode:urlCode
     });
 
     return res.status(201).json({
@@ -99,12 +100,13 @@ export const updateShortUrl = async (req, res) => {
     const { id } = req.params;
 
     const urlCode = shortid.generate();
-    const newShortUrl = `t.lk/${urlCode}`;
+    const newShortUrl = `http://localhost:3000/url/${urlCode}`;
 
     const url = await URL.findByIdAndUpdate(
       id,
       {
         shortUrl: newShortUrl,
+        urlCode:urlCode
       },
       {
         new: true,
@@ -132,10 +134,9 @@ export const updateShortUrl = async (req, res) => {
 
 export const accessURL = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { code } = req.params;
 
-    const url = await URL.findById(id);
-    console.log(url)
+    const url = await URL.findOne({urlCode:code});
 
     if (!url) {
       return res.status(500).json({
