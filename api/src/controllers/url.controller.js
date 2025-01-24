@@ -3,16 +3,16 @@ import shortid from "shortid";
 
 export const shortener = async (req, res) => {
   try {
-    const { url } = req.body;
+    const { longUrl } = req.body;
 
-    if (!url) {
+    if (!longUrl) {
       return res.status(400).json({
         success: false,
         message: "Please provide the url.",
       });
     }
 
-    const existingUrl = await URL.findOne({ longUrl: url });
+    const existingUrl = await URL.findOne({ longUrl });
 
     if (existingUrl) {
       return res.status(201).json({
@@ -27,7 +27,7 @@ export const shortener = async (req, res) => {
     const newShortUrl = `http://localhost:3000/url/${urlCode}`;
 
     const newURL = await URL.create({
-      longUrl: url,
+      longUrl:longUrl,
       shortUrl: newShortUrl,
       urlCode:urlCode
     });
