@@ -24,7 +24,7 @@ export const shortener = async (req, res) => {
 
     const urlCode = shortid.generate();
 
-    const newShortUrl = `http://localhost:3000/url/${urlCode}`;
+    const newShortUrl = `http://localhost:5173/url/${urlCode}`;
 
     const newURL = await URL.create({
       longUrl:longUrl,
@@ -100,7 +100,7 @@ export const updateShortUrl = async (req, res) => {
     const { id } = req.params;
 
     const urlCode = shortid.generate();
-    const newShortUrl = `http://localhost:3000/url/${urlCode}`;
+    const newShortUrl = `http://localhost:5173/url/${urlCode}`;
 
     const url = await URL.findByIdAndUpdate(
       id,
@@ -156,3 +156,21 @@ export const accessURL = async (req, res) => {
     });
   }
 };
+
+
+export const allUrls = async (req,res)=>{
+  try {
+    const url = await URL.find();
+    
+    return res.status(200).json({
+      success: true,
+      url: url,
+      message: "All data fetched.",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+}

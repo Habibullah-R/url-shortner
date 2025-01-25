@@ -1,16 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HiChartBar } from "react-icons/hi";
+import { toast } from "react-toastify";
+import Modal from "./components/Modal";
 
 const App = () => {
   const [longUrl, setLongUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [recentUrls, setRecentUrls] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUrl, setSelectedUrl] = useState(null);
+
+  // Get all URLs
+  const getAllUrls = async () => {
+    try {
+      const response = await fetch("/url/allurls", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+      setRecentUrls(data.url);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   // Sending request for URL shortening
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await fetch("/url/shorten", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ longUrl }),
+      });
+      const data = await response.json();
+      if (!data.success) {
+        toast.error(data.message);
+        return;
+      }
+      setLongUrl("");
+      setShortUrl(data.url.shortUrl);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
+  useEffect(() => {
+    getAllUrls();
+  }, [recentUrls, shortUrl]);
+
+  const handleIconClick = (url) => {
+    setSelectedUrl(url); 
+    setIsModalOpen(true); 
+  };
 
   return (
     <>
@@ -54,7 +104,9 @@ const App = () => {
 
         {/* Recent URLs Section */}
         <div className="max-w-lg w-full mt-10 mb-10 bg-white shadow-lg rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-purple-600 mb-4">Recent URLs</h3>
+          <h3 className="text-lg font-semibold text-purple-600 mb-4">
+            Recent URLs
+          </h3>
           <ul className="space-y-4">
             {recentUrls.map((url, index) => (
               <li
@@ -62,7 +114,6 @@ const App = () => {
                 className="flex items-center justify-between bg-purple-50 px-4 py-2 rounded-md shadow-sm text-purple-700"
               >
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{url.longUrl}</span>
                   <a
                     href={url.shortUrl}
                     target="_blank"
@@ -72,12 +123,19 @@ const App = () => {
                     {url.shortUrl}
                   </a>
                 </div>
-                <HiChartBar size={20} className="text-purple-500 cursor-pointer mr-3" />
+                <HiChartBar
+                  size={20}
+                  className="text-purple-500 cursor-pointer mr-3"
+                  onClick={() => handleIconClick(url)}
+                />
               </li>
             ))}
           </ul>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url={selectedUrl}/>
     </>
   );
 };

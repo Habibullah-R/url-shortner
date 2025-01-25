@@ -10,8 +10,8 @@ const app = express()
 db();
 
 app.use(cors())
-app.use(express.json({ limit: "10kb" }));
-app.use(urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.json({limit:"16kb"}));
+app.use(urlencoded({extended:true,limit:"16kb"}))
 
 app.use("/url",urlRoutes)
 
