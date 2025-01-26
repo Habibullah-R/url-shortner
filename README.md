@@ -1,6 +1,6 @@
 # URL Shortener
 
-This is the backend API for the URL Shortener application. It is built with Node.js, Express.js, and MongoDB.
+This is a complete project made in MERN that shortens your lengthy urls.
 
 ## Features
 
@@ -78,6 +78,16 @@ url-shortener/
 │   │   └── main.jsx
 │   └── vite.config.js
 ```
+
+## Technologies Used
+
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Node.js](https://nodejs.org/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+
+
 ## Description
 
 Here is description of project [Description](https://roadmap.sh/projects/url-shortening-service)
