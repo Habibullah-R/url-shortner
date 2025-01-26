@@ -3,7 +3,7 @@ import shortid from "shortid";
 
 export const shortener = async (req, res) => {
   try {
-    const { longUrl } = req.body;
+    const { name , longUrl } = req.body;
 
     if (!longUrl) {
       return res.status(400).json({
@@ -27,6 +27,7 @@ export const shortener = async (req, res) => {
     const newShortUrl = `http://localhost:5173/url/${urlCode}`;
 
     const newURL = await URL.create({
+      name:name,
       longUrl:longUrl,
       shortUrl: newShortUrl,
       urlCode:urlCode
@@ -36,31 +37,6 @@ export const shortener = async (req, res) => {
       success: true,
       url: newURL,
       message: "URL shortened successfully.",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-      success: false,
-    });
-  }
-};
-
-export const getStats = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const url = await URL.findById(id);
-
-    if (!url) {
-      return res.status(400).json({
-        success: false,
-        message: "URL may be deleted",
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      url: url,
     });
   } catch (error) {
     return res.status(500).json({
@@ -160,7 +136,7 @@ export const accessURL = async (req, res) => {
 
 export const allUrls = async (req,res)=>{
   try {
-    const url = await URL.find();
+    const url = await URL.find().sort({ updatedAt: -1 }).exec();;
     
     return res.status(200).json({
       success: true,

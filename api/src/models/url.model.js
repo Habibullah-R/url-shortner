@@ -1,6 +1,9 @@
 import { mongoose } from "mongoose";
 
 const urlSchema = new mongoose.Schema({
+    name:{
+        type:String
+    },
     longUrl:{
         type:String,
         required:true
