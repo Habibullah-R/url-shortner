@@ -1,7 +1,6 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
-  "type":"module",
   "scripts": {
     "install-api": "cd api && npm install",
     "install-client": "cd client && npm install",
