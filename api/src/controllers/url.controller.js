@@ -150,3 +150,30 @@ export const allUrls = async (req,res)=>{
     });
   }
 }
+
+export const getStats = async(req,res)=>{
+  try {
+    const { id } = req.params;
+
+    const url = await URL.findById(id);
+
+    if(!url){
+      return res.status(500).json({
+        success: false,
+        message: "URL not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      url: url,
+      message: "URL stats fetched.",
+    });
+    
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+}

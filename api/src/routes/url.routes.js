@@ -4,11 +4,13 @@ import {
   deleteUrl,
   updateShortUrl,
   accessURL,
-  allUrls
+  allUrls,
+  getStats
 } from "../controllers/url.controller.js";
 
 const router = express.Router();
 
+router.get("/getStats/:id",getStats)
 router.get("/allUrls",allUrls)
 router.post("/shorten", shortener);
 router.delete("/delete/:id", deleteUrl);

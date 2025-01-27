@@ -66,7 +66,7 @@ const App = () => {
 
   useEffect(() => {
     getAllUrls();
-  }, [isModalOpen, shortUrl]);
+  }, [isModalOpen , setIsModalOpen, shortUrl]);
 
   const handleIconClick = (url) => {
     setSelectedUrl(url);
@@ -75,12 +75,15 @@ const App = () => {
 
   // Function to copy the short URL
   const handleCopy = () => {
-    navigator.clipboard.writeText(shortUrl).then(() => {
-      toast.success("Short URL copied to clipboard!");
-    }).catch((error) => {
-      toast.error("Failed to copy URL!");
-      console.error(error);
-    });
+    navigator.clipboard
+      .writeText(shortUrl)
+      .then(() => {
+        toast.success("Short URL copied to clipboard!");
+      })
+      .catch((error) => {
+        toast.error("Failed to copy URL!");
+        console.error(error);
+      });
   };
 
   return (
@@ -118,11 +121,7 @@ const App = () => {
             disabled={loading}
             className="self-center cursor-pointer mt-4 px-4 py-2 rounded-md w-1/3 bg-purple-500 text-white font-semibold hover:bg-purple-600 transition duration-200 shadow-md"
           >
-            {loading ? (
-              <FaSpinner className="animate-spin mx-auto" size={24} />
-            ) : (
-              "Submit"
-            )}
+            Submit
           </button>
         </form>
 
