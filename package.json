@@ -1,0 +1,12 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "type":"module",
+  "scripts": {
+    "install-api": "cd api && npm install",
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "build": "npm run install-api && npm run install-client && npm run build-client",
+    "start": "node api/src/index.js"
+  }
+}
