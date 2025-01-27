@@ -24,7 +24,7 @@ export const shortener = async (req, res) => {
 
     const urlCode = shortid.generate();
 
-    const newShortUrl = `http://localhost:5173/url/${urlCode}`;
+    const newShortUrl = `https://url-shortner-5y7c.onrender.com/url/${urlCode}`;
 
     const newURL = await URL.create({
       name:name,
@@ -76,7 +76,7 @@ export const updateShortUrl = async (req, res) => {
     const { id } = req.params;
 
     const urlCode = shortid.generate();
-    const newShortUrl = `http://localhost:5173/url/${urlCode}`;
+    const newShortUrl = `https://url-shortner-5y7c.onrender.com/url/${urlCode}`;
 
     const url = await URL.findByIdAndUpdate(
       id,
